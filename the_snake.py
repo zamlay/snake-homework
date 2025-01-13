@@ -63,6 +63,27 @@ class Apple(GameObject):
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
+class Obstacle(GameObject):
+    """Класс, описывающий яблоко."""
+
+    def __init__(self):
+        super().__init__((0, 0))
+        self.body_color = BORDER_COLOR
+        self.randomize_position()
+
+    def randomize_position(self):
+        """Генерация случайной позиции яблока."""
+        self.position = (
+            randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+            randint(0, GRID_HEIGHT - 1) * GRID_SIZE
+        )
+
+    def draw(self):
+        """Отрисовка яблока."""
+        rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(screen, self.body_color, rect)
+        pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+
 
 class Snake(GameObject):
     """Класс, описывающий змейку."""
@@ -137,6 +158,8 @@ def main():
     pygame.init()
     snake = Snake()
     apple = Apple()
+    for i in range (5):
+        obstacle[i] = Obstacle()
 
     while True:
         clock.tick(SPEED)
@@ -153,7 +176,11 @@ def main():
         screen.fill(BOARD_BACKGROUND_COLOR)
         apple.draw()
         snake.draw()
+        for i in range (5):
+            obstacle.draw()
+
         pygame.display.update()
+
 
 
 if __name__ == '__main__':
